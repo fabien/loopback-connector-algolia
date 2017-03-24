@@ -1,19 +1,15 @@
-# loopback-connector-auth0
+# loopback-connector-algolia
 
-Loopback connector for Auth0 User Management.
+Loopback connector for Algolia index management.
 
 Connector config example:
 
 ``` js
 {
-    "domain": "DOMAIN_NAME.auth0.com",
-    "clientId": "CLIENT_ID",
-    "clientSecret": "CLIENT_SECRET",
-    "connection": "CONNECTION_NAME",  // all operations will be limited to this connection
-    "user_metadata": {},              // optional overrides,
-    "app_metadata": {},               // optional overrides
-    "mapping": {                      // mapping attributes from Loopback to Auth0
-        "favoriteColor": "user_metadata.favoriteColor",
+    "applicationId": "<application ID>",
+    "apiKey": "<admin API key>",
+    "mapping": {                      // from Loopback to Algolia
+        "favoriteColor": "favorite_color",
         "group": "demo"
     },
     "attributes": {                   // enforced data attributes
@@ -22,13 +18,8 @@ Connector config example:
     "defaults": {                     // default data attributes
         "favoriteColor": "red"
     },
-    "connectionQueryScope": true,     // always apply connection query scope (default: true)
     "queryScope": {                   // default/enforced query scope (Loopback)
         "where": { "group": "demo" }
-    },
-    "scopes": {                       // API scopes (permissions)
-        "users": ["create", "read", "update", "delete"],
-        "users_app_metadata": ["create", "read", "update", "delete"]
     }
 }
 ```
@@ -38,9 +29,7 @@ Note: create a file `test/credentials.local.json` with the following parameters:
 
 ``` json
 {
-    "domain": "DOMAIN_NAME.auth0.com",
-    "clientId": "CLIENT_ID",
-    "clientSecret": "CLIENT_SECRET",
-    "connection": "CONNECTION_NAME"
+    "applicationId": "<application ID>",
+    "apiKey": "<admin API key>"
 }
 ```
