@@ -32,6 +32,10 @@ describe('Connector', function() {
         });
     });
     
+    before(function(next) {
+        setTimeout(next, 1000); // wait on automigrate
+    });
+    
     after(function(next) {
         registry.disconnect(next);
     });
@@ -44,6 +48,15 @@ describe('Connector', function() {
         registeredAt: new Date('2017-03-24'),
         tags: ['foo', 'bar', 'baz']
     };
+    
+    it('should attached DAO methods and properties', function() {
+        Contact.algoliaClient.should.equal(connector.client);
+        Contact.serializeForIndex.should.be.a.function;
+        Contact.rebuildIndex.should.be.a.function;
+        Contact.buildIndex.should.be.a.function;
+        Contact.clearIndex.should.be.a.function;
+        Contact.adoptIndex.should.be.a.function;
+    });
     
     it('should create a query', function() {
         connector.buildQuery('Contact').should.eql({});
@@ -438,7 +451,7 @@ describe('Connector', function() {
             
             _.all(contacts, function(contact) {
                 return contact.state === 'NY';
-            });
+            }).should.be.true;
             
             meta.nbHits.should.equal(31);
             meta.page.should.equal(0);
@@ -495,7 +508,7 @@ describe('Connector', function() {
             
             _.all(contacts, function(contact) {
                 return contact.state === 'NY' && _.include(cities, contact.city);
-            });
+            }).should.be.true;
             
             meta.nbHits.should.equal(5);
             meta.page.should.equal(0);
