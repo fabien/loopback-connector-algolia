@@ -265,13 +265,13 @@ describe('Connector', function() {
         });
     });
     
-    // it('should not create a duplicate entry - will overwrite existing', function(next) {
-    //     Contact.create(contactData, { wait: true }, function(err, contact) {
-    //         if (err) return next(err);
-    //         contact.id.should.equal(ids.contact);
-    //         next();
-    //     });
-    // });
+    it('should not create a duplicate entry - will overwrite existing', function(next) {
+        Contact.create(contactData, { wait: true }, function(err, contact) {
+            if (err) return next(err);
+            contact.id.should.equal(ids.contact);
+            next();
+        });
+    });
     
     it('should find an entry by id', function(next) {
         Contact.findById(ids.contact, function(err, contact) {
