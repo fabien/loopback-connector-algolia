@@ -1,0 +1,32 @@
+{
+	"name": "loopback-connector-algolia",
+	"version": "1.0.0",
+	"description": "Loopback connector for Algolia search",
+	"keywords": [
+		"loopback",
+		"search"
+	],
+	"license": "ISC",
+	"author": {
+		"name": "Fabien Franzen",
+		"email": "info@atelierfabien.be"
+	},
+	"main": "index.js",
+	"scripts": {
+		"test": "NODE_ENV=test mocha -s 500 -t 10000 --reporter spec test"
+	},
+	"dependencies": {
+		"algoliasearch": "^3.22.1",
+		"async": "^1.5.2",
+		"lodash": "^3.10.1",
+		"loopback-connector": "^2.3.0",
+		"traverse": "^0.6.6"
+	},
+	"devDependencies": {
+		"independent-juggler": "git+ssh://git@github.com/fabien/independent-juggler",
+		"loopback-datasource-juggler": "2.54.0",
+		"mocha": "^2.3.4",
+		"should": "^8.1.1"
+	},
+	"private": true
+}

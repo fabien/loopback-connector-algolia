@@ -1,0 +1,17 @@
+{
+  "name": "Contact",
+  "properties": {
+      "firstname": { "type": "string", "searchable": 1 },
+      "lastname": { "type": "string", "searchable": 2 },
+      "company": { "type": "string", "searchable": 3 },
+      "state": { "type": "string", "searchable": 5, "facet": true },
+      "city": { "type": "string", "searchable": 4, "facet": true },
+      "followers": { "type": "number", "searchable": true, "facet": true },
+      "registeredAt": { "type": "date", "searchable": true, "facet": true },
+      "isAdmin": { "type": "boolean", "unretrievable": true, "default": false }
+  },
+  "strict": true,
+  "algolia": {
+      "indexName": "test_contacts"
+  }
+}
