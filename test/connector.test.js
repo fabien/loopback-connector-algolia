@@ -32,10 +32,6 @@ describe('Connector', function() {
         });
     });
     
-    before(function(next) {
-        setTimeout(next, 1000); // wait on automigrate
-    });
-    
     after(function(next) {
         registry.disconnect(next);
     });

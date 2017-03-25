@@ -4,9 +4,8 @@ var path = require('path');
 var _ = require('lodash');
 
 var items = require('./fixtures/contacts.json').slice(0, 20);
-var indexedProps = ['state', 'city', 'company', 'firstname', 'lastname', 'followers'];
 
-return; // disabled by default, to not trigger operations
+// return; // disabled by default, to not trigger operations
 
 describe('Indexing', function() {
     
@@ -22,27 +21,39 @@ describe('Indexing', function() {
         });
     });
     
-    before(function(next) {
-        setTimeout(next, 1000); // wait on automigrate
-    });
-    
     after(function(next) {
         registry.disconnect(next);
     });
     
-    it('should serialize all given items', function() {
-        var expected = _.map(items, function(item) {
-            return _.pick(item, indexedProps);
-        });
-        Contact.serializeForIndex(items).should.eql(expected);
-    });
-    
-    it('should not have any indexed items after automigrate', function(next) {
-        Contact.count(function(err, count) {
+    it('should set index settings', function(next) {
+        Contact.setIndexSettings({ hitsPerPage: 50 }, {
+            wait: true
+        }, function(err, settings) {
             if (err) return next(err);
-            count.should.eql(0);
+            settings.should.eql({ hitsPerPage: 50 });
             next();
         });
+    });
+    
+    it('should get index settings', function(next) {
+        var indexSettings = connector.getModelIndexSettings('Contact');
+        var keys = _.keys(indexSettings);
+        Contact.getIndexSettings(function(err, settings) {
+            if (err) return next(err);
+            settings.hitsPerPage.should.equal(50);
+            indexSettings.should.eql(_.pick(settings, keys));
+            next();
+        });
+    });
+
+    it('should serialize all given items', function() {
+        var indexedProps = _.keys(Contact.definition.properties);
+        var expected = _.map(items, function(item) {
+            item = _.pick(item, indexedProps);
+            item.isAdmin = false;
+            return item;
+        });
+        Contact.serializeForIndex(items).should.eql(expected);
     });
     
     // The workflow below is similar to the suggested zero-downtime
