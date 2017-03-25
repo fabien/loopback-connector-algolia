@@ -9,6 +9,7 @@ registry.setupDataSource('algolia', {
     connector: Connector,
     applicationId: credentials.applicationId,
     apiKey: credentials.apiKey,
+    validIndexes: ['dev_contacts', 'tmp_contacts'],
     mapping: {  // from Loopback to Algolia
         'tags': '_tags'
     },
