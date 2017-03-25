@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 var items = require('./fixtures/contacts.json').slice(0, 20);
 
-// return; // disabled by default, to not trigger operations
+return; // disabled by default, to not trigger operations
 
 describe('Indexing', function() {
     
@@ -45,7 +45,97 @@ describe('Indexing', function() {
             next();
         });
     });
-
+    
+    it('should ensure a synonym - add (1)', function(next) {
+        var synonym = {
+            objectID: 'car',
+            synonyms: ['auto', 'automobile']
+        };
+        Contact.ensureSynonym(synonym, function(err, result) {
+            if (err) return next(err);
+            result.should.eql(_.extend({ type: 'synonym' }, synonym));
+            next();
+        });
+    });
+    
+    it('should ensure a synonym - add (2)', function(next) {
+        var synonym = {
+            objectID: 'tablet',
+            type: 'oneWaySynonym',
+            input: 'tablet',
+            synonyms: ['ipad', 'galaxy note']
+        };
+        Contact.ensureSynonym(synonym, function(err, result) {
+            if (err) return next(err);
+            result.should.eql(synonym);
+            next();
+        });
+    });
+    
+    it('should ensure a synonym - update', function(next) {
+        var synonym = {
+            objectID: 'car',
+            synonyms: ['auto', 'automobile', 'vehicle']
+        };
+        Contact.ensureSynonym(synonym, function(err, result) {
+            if (err) return next(err);
+            result.should.eql(_.extend({ type: 'synonym' }, synonym));
+            next();
+        });
+    });
+    
+    it('should get a synonym', function(next) {
+        Contact.getSynonym('car', function(err, synonym) {
+            if (err) return next(err);
+            synonym.should.eql({
+                objectID: 'car',
+                type: 'synonym',
+                synonyms: ['auto', 'automobile', 'vehicle']
+            });
+            next();
+        });
+    });
+    
+    it('should list synonyms', function(next) {
+        var meta = {};
+        Contact.listSynonyms({}, { meta: meta }, function(err, synonyms) {
+            if (err) return next(err);
+            meta.should.eql({ nbHits: 2 });
+            var car = _.find(synonyms, { objectID: 'car' });
+            _.omit(car, '_highlightResult').should.eql({
+                objectID: 'car',
+                type: 'synonym',
+                synonyms: ['auto', 'automobile', 'vehicle']
+            });
+            var tablet = _.find(synonyms, { objectID: 'tablet' });
+            _.omit(tablet, '_highlightResult').should.eql({
+                objectID: 'tablet',
+                type: 'oneWaySynonym',
+                input: 'tablet',
+                synonyms: ['ipad', 'galaxy note']
+            });
+            next();
+        });
+    });
+    
+    it('should delete a synonym', function(next) {
+        Contact.deleteSynonym('tablet', function(err, result) {
+            if (err) return next(err);
+            result.should.have.property('deletedAt');
+            next();
+        });
+    });
+    
+    it('should list synonyms', function(next) {
+        var meta = {};
+        Contact.listSynonyms({}, { meta: meta }, function(err, synonyms) {
+            if (err) return next(err);
+            meta.should.eql({ nbHits: 1 });
+            _.pluck(synonyms, 'objectID').should.eql(['car']);
+            next();
+        });
+    });
+    
     it('should serialize all given items', function() {
         var indexedProps = _.keys(Contact.definition.properties);
         var expected = _.map(items, function(item) {
