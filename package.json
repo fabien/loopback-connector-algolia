@@ -1,5 +1,5 @@
 {
-  "name": "loopback-connector-algolia",
+  "name": "@atelierfabien/loopback-connector-algolia",
   "version": "1.0.0",
   "description": "Loopback connector for Algolia search",
   "keywords": [
@@ -24,10 +24,9 @@
     "traverse": "^0.6.6"
   },
   "devDependencies": {
-    "independent-juggler": "git+ssh://git@github.com/fabien/independent-juggler",
+    "independent-juggler": "*",
     "loopback-datasource-juggler": "2.54.0",
     "mocha": "^2.3.4",
     "should": "^8.1.1"
-  },
-  "private": true
+  }
 }
