@@ -5,10 +5,8 @@ var registry = new Registry(juggler, { dir: __dirname });
 var Connector = require('../..');
 var credentials = require('../credentials.local.json');
 
-registry.setupDataSource('algolia', {
+registry.setupDataSource('algolia', Object.assign({
     connector: Connector,
-    applicationId: credentials.applicationId,
-    apiKey: credentials.apiKey,
     validIndexes: ['dev_contacts', 'tmp_contacts'],
     mapping: {  // from Loopback to Algolia
         'tags': '_tags'
@@ -16,6 +14,6 @@ registry.setupDataSource('algolia', {
     attributes: {},  // enforced data attributes
     defaults: {},    // default data attributes
     queryScope: {}   // enforced scope
-});
+}, credentials));
 
 module.exports = registry;
