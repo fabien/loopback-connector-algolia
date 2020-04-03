@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 var items = require('./fixtures/contacts.json').slice(0, 20);
 
-return; // disabled by default, to not trigger operations
+if (!process.env.TEST_ALL) return; // disabled by default, to not trigger operations
 
 describe('Indexing', function() {
     

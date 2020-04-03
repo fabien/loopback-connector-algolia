@@ -13,7 +13,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha -s 500 -t 10000 --reporter spec test"
+    "test": "NODE_ENV=test mocha -s 500 -t 10000 --reporter spec test",
+    "test-indexing": "NODE_ENV=test TEST_ALL=1 mocha -s 500 -t 20000 --reporter spec test/indexing.test.js"
   },
   "dependencies": {
     "algoliasearch": "^3.35.0",
