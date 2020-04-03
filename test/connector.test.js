@@ -47,11 +47,11 @@ describe('Connector', function() {
     
     it('should attached DAO methods and properties', function() {
         Contact.algoliaClient.should.equal(connector.client);
-        Contact.serializeForIndex.should.be.a.function;
-        Contact.rebuildIndex.should.be.a.function;
-        Contact.buildIndex.should.be.a.function;
-        Contact.clearIndex.should.be.a.function;
-        Contact.adoptIndex.should.be.a.function;
+        Contact.serializeForIndex.should.be.a.Function();
+        Contact.rebuildIndex.should.be.a.Function();
+        Contact.buildIndex.should.be.a.Function();
+        Contact.clearIndex.should.be.a.Function();
+        Contact.adoptIndex.should.be.a.Function();
     });
     
     it('should create a query', function() {
@@ -252,7 +252,7 @@ describe('Connector', function() {
     it('should create a new entry', function(next) {
         Contact.create(contactData, { wait: true }, function(err, contact) {
             if (err) return next(err);
-            contact.id.should.be.a.string;
+            contact.id.should.be.a.String();
             ids.contact = contact.id;
             contactData.id = contact.id;
             contactData.isAdmin = false;
@@ -304,14 +304,13 @@ describe('Connector', function() {
             indexName: 'dev_contacts', meta: meta
         }, function(err, contacts) {
             if (err) return next(err);
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             contacts.should.have.length(5);
             
             contacts[0].should.be.instanceof(Contact);
             contacts[0].should.have.property('id');
             contacts[0].should.have.property('firstname');
             contacts[0].should.have.property('lastname');
-            contacts[0].should.be.undefined;
             
             meta.nbHits.should.equal(500);
             meta.page.should.equal(0);
@@ -333,21 +332,20 @@ describe('Connector', function() {
             indexName: 'dev_contacts', meta: meta
         }, function(err, contacts) {
             if (err) return next(err);
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             contacts.should.not.be.empty;
             
             contacts[0].should.be.instanceof(Contact);
             contacts[0].should.have.property('id');
             contacts[0].should.have.property('firstname');
             contacts[0].should.have.property('lastname');
-            contacts[0].should.be.undefined;
             
             meta.nbHits.should.equal(500);
             meta.page.should.equal(1);
             meta.nbPages.should.equal(100);
             meta.hitsPerPage.should.equal(5);
             
-            meta.facets.should.be.an.object;
+            meta.facets.should.be.an.Object();
             meta.facets.should.eql({
                 city: {
                     'Honolulu': 12,
@@ -389,7 +387,7 @@ describe('Connector', function() {
             indexName: 'dev_contacts', meta: meta
         }, function(err, contacts) {
             if (err) return next(err);
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             
             var expected = ['Janet', 'Janet', 'Betty Jane', 'Janice', 'Jade'];
             
@@ -401,7 +399,7 @@ describe('Connector', function() {
             meta.nbPages.should.equal(4);
             meta.hitsPerPage.should.equal(5);
             
-            meta.facets.should.be.an.object;
+            meta.facets.should.be.an.Object();
             meta.facets.should.eql({
                 city: {
                     'Eugene': 3,
@@ -437,7 +435,7 @@ describe('Connector', function() {
             indexName: 'dev_contacts', meta: meta
         }, function(err, contacts) {
             if (err) return next(err);
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             contacts.should.have.length(5);
             
             contacts[0].should.be.instanceof(Contact);
@@ -447,14 +445,14 @@ describe('Connector', function() {
             
             _.all(contacts, function(contact) {
                 return contact.state === 'NY';
-            }).should.be.true;
+            }).should.be.True();
             
             meta.nbHits.should.equal(31);
             meta.page.should.equal(0);
             meta.nbPages.should.equal(7);
             meta.hitsPerPage.should.equal(5);
             
-            meta.facets.should.be.an.object;
+            meta.facets.should.be.an.Object();
             meta.facets.should.eql({
                 city: {
                     'New York': 12,
@@ -494,7 +492,7 @@ describe('Connector', function() {
             indexName: 'dev_contacts', meta: meta
         }, function(err, contacts) {
             if (err) return next(err);
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             contacts.should.have.length(5);
             
             contacts[0].should.be.instanceof(Contact);
@@ -504,14 +502,14 @@ describe('Connector', function() {
             
             _.all(contacts, function(contact) {
                 return contact.state === 'NY' && _.include(cities, contact.city);
-            }).should.be.true;
+            }).should.be.True();
             
             meta.nbHits.should.equal(5);
             meta.page.should.equal(0);
             meta.nbPages.should.equal(1);
             meta.hitsPerPage.should.equal(20);
             
-            meta.facets.should.be.an.object;
+            meta.facets.should.be.an.Object();
             meta.facets.should.eql({
                 city: {
                     'Brooklyn': 3,
@@ -526,7 +524,7 @@ describe('Connector', function() {
     it('should check if an entry exists - raw', function(next) {
         connector.exists('Contact', ids.contact, {}, function(err, exists) {
             if (err) return next(err);
-            exists.should.be.true;
+            exists.should.be.True();
             next();
         });
     });
@@ -534,7 +532,7 @@ describe('Connector', function() {
     it('should check if an entry exists (1)', function(next) {
         Contact.exists(ids.contact, function(err, exists) {
             if (err) return next(err);
-            exists.should.be.true;
+            exists.should.be.True();
             next();
         });
     });
@@ -542,7 +540,7 @@ describe('Connector', function() {
     it('should check if an entry exists (2)', function(next) {
         Contact.exists('xxx', function(err, exists) {
             if (err) return next(err);
-            exists.should.be.false;
+            exists.should.be.False();
             next();
         });
     });
@@ -631,7 +629,7 @@ describe('Connector', function() {
     
     it('should have updated multipe entries', function(next) {
         Contact.find({ state: 'NY' }, function(err, contacts) {
-            contacts.should.be.an.array;
+            contacts.should.be.an.Array();
             contacts.should.have.length(1);
             contacts[0].id.should.equal(ids.contact);
             contacts[0].toJSON().should.eql(contactData);
@@ -649,7 +647,7 @@ describe('Connector', function() {
     
     it('should not have deleted any entries', function(next) {
         Contact.exists(ids.contact, function(err, exists) {
-            exists.should.be.true;
+            exists.should.be.True();
             next();
         });
     });
@@ -665,7 +663,7 @@ describe('Connector', function() {
     it('should have deleted an entry', function(next) {
         Contact.exists(ids.contact, function(err, exists) {
             if (err) return next(err);
-            exists.should.be.false;
+            exists.should.be.False();
             next();
         });
     });

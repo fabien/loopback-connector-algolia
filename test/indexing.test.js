@@ -156,8 +156,8 @@ describe('Indexing', function() {
     it('should clone an existing index', function(next) {
         Contact.cloneIndex('tmp_contacts', function(err, index) {
             if (err) return next(err);
-            index.should.be.an.object;
-            index.search.should.be.a.function;
+            index.should.be.an.Object();
+            index.search.should.be.a.Function();
             next();
         });
     });
@@ -167,9 +167,9 @@ describe('Indexing', function() {
             indexName: 'tmp_contacts', batchSize: 5
         }, function(err, batches) {
             if (err) return next(err);
-            batches.should.be.an.array;
+            batches.should.be.an.Array();
             batches.should.have.length(4);
-            _.all(batches, function(b) { return b.length === 5; }).should.be.true;
+            _.all(batches, function(b) { return b.length === 5; }).should.be.True();
             next();
         });
     });
@@ -177,8 +177,8 @@ describe('Indexing', function() {
     it('should adopt another index', function(next) {
         Contact.adoptIndex('tmp_contacts', function(err, index) {
             if (err) return next(err);
-            index.should.be.an.object;
-            index.search.should.be.a.function;
+            index.should.be.an.Object();
+            index.search.should.be.a.Function();
             next();
         });
     });
