@@ -1,6 +1,6 @@
 {
   "name": "@atelierfabien/loopback-connector-algolia",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Loopback connector for Algolia search",
   "keywords": [
     "loopback",
