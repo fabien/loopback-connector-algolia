@@ -1,6 +1,6 @@
 {
   "name": "@atelierfabien/loopback-connector-algolia",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Loopback connector for Algolia search",
   "keywords": [
     "loopback",
@@ -17,7 +17,7 @@
     "test-indexing": "NODE_ENV=test TEST_ALL=1 mocha --bail -s 500 -t 20000 --reporter spec test/indexing.test.js"
   },
   "dependencies": {
-    "algoliasearch": "^4.1.0",
+    "algoliasearch": "^4.2.0",
     "async": "^1.5.2",
     "cuid": "^1.3.8",
     "lodash": "^3.10.1",
